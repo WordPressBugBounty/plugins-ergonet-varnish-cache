@@ -3,99 +3,76 @@ Contributors: ergonet
 Tags: cache
 Requires at least: 4.9
 Tested up to: 6.7
-Stable tag: 1.0.10
+Stable tag: 1.0.11
 Requires PHP: 7.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-WordPress plugin for automating Varnish purge on articles and pages. This plugin is designed to work on [Ergonet hosting services](https://www.ergonet.it/ "Ergonet hosting services").
-
-== Description ==
-
-== ERGONET VARNISH CACHE FOR WORDPRESS ==
-Ergonet Varnish Cache is a free plugin developed by Ergonet srl, an Italian hosting company, to improve performance of a website developed in WordPress.
+Ergonet Cache for WordPress is a free plugin developed by Ergonet srl, an Italian hosting company, to drastically improve the performance of a WordPress website by using a server-side page caching system (NGINX Cache or Varnish Cache).
 
 == BENEFITS ==
 
-Using a reverse proxy system based on Varnish web accelerator will increase performance of your WordPress site starting from a minimum of 30% to a maximum of 60%. Remember that the performance improvement will also depend on the entire optimization strategy of your website.
+Using a server-side caching system increases your WordPress site's performance by a minimum of 30% and up to 70%. Keep in mind that the actual improvement will also depend on your overall website optimization strategy.
 
-== WHAT IS VARNISH? ==
+== WHAT IS PAGE CACHE AND HOW DOES IT WORK? ==
 
-Varnish is an http accelerator (also called reverse proxy) that saves entire WordPress sites pages on RAM memory, the fastest storage available, returning them immediately to the website visitor.
-Therefore, if a specific page of your site has already been visited previously and is available in cache, Varnish will immediately return it to the user who is requesting it, without requesting its generation again from your WordPress site.
-If a visitor visits a page not yet in cache, Varnish will request it directly to Apache / NGINX web server, adding it to cache to speed up next requests of the same resource.
+Page cache speeds up your website by storing the entire HTML of web pages directly on the web server, instantly serving them to visitors without needing to query the PHP server or the database again. Depending on your hosting plan, you can enable NGINX page cache (Equilibrio plan) or advanced RAM-based Varnish page cache (Progresso and Successo plans).
 
-== COMPATIBILITY ==
+== COMPATIBILITY==
 
-Ergonet Varnish Cache is fully compatible with all other caching and website optimization plugins. For example  WP Rocket, Autoptimize, W3 Total Cache, WP Fastest Cache and so on. However it's recommended to disable the Page caching option of these plugins, because, besides being less performing then Varnish, may lead to incompatibilities.
-Ergonet Varnish Cache plugin works as a communication layer between WordPress and Varnish caching system installed on Ergonets hosting platform. Varnish is available on shared hosting plans with “Successo” performance profile and dedicated Cloud Hosting (Solo and Multidominio) available for purchase on https://www.ergonet.it
-A fundamental requirement for the operation of the plugin is the activation of Varnish cache system from WebPanel (Ergonet customers area available at https://webpanel.ergonet.it) by the user who purchased hosting service.
+The Ergonet Cache plugin is compatible with all other website caching and optimization plugins, such as WP Rocket, W3 Total Cache, WO Optimize, etc.
+The Ergonet Cache plugin functions solely as a communication layer between WordPress and the cache system (Varnish or NGINX) installed on the WordPress hosting platform (any plan) and dedicated cloud hosting (Solo and Multidomain plans) offered by Ergonet, available for purchase at this link: https://www.ergonet.it/hosting/hosting-wordpress-valore
+A fundamental requirement for the plugin to work is enabling the caching system from the WebPanel (Ergonet client area available at https://webpanel.ergonet.it) by the user who purchased the shared or dedicated cloud hosting service.
 
-== HOW PLUGIN WORKS ==
+== HOW THE PLUGIN WORKS==
 
-Once Varnish cache system is activated from Ergonets WebPanel and Ergonet Varnish Cache plugin is installed and activated, it will work without any additional configuration.
+Once the caching system is enabled from the Ergonet WebPanel and the Ergonet Cache plugin is installed and activated, it will work without any additional configuration.
+Cache resource updates
+Each time the webmaster updates a post or page, the plugin installed in WordPress will automatically delete the old cached version to prevent users from seeing outdated content.
+At the same time, the homepage cache will also be cleared to reflect any new articles available on it.
+Cache resource deletion
+Thanks to the automatic update and removal functionality, there is no need to manually clear the cache. Moreover, forcibly clearing the entire cache is discouraged, as it would remove all previously stored resources (pages, articles, etc.) that had been frequently accessed.
+On websites with a large amount of content, a full cache purge could also cause significant slowdowns due to WordPress needing to regenerate all requested pages or articles from scratch.
 
-Caching resources
-A resource, intended as an URL, will be automatically added into Varnish cache when an anonymous user visits the page.
+== WHAT IS NOT CACHED ==
+To ensure the plugin works efficiently, some resources and specific HTTP calls are never cached. These include:
 
-Updating cached resources
-Whenever the webmaster updates an article or page, the plugin will take care of deleting the old resource in the cache, to prevent users from viewing old content.
-At the same time, homepage cache will also be deleted and updated with last articles.
+* Any page, article/resource visited by a logged-in user.
+* Any page, article/resource where a no-cache header or similar is set.
+* All requests made to the WordPress backend.
+* All data submission requests (e.g., registration forms, contact forms, comments, etc.)
 
-Clearing Cached Resources
-Given the automatic update and removal of resources, there will be no need to forcibly clear cache. Furthermore, total cache deletion is a not recommended action, as it would delete all resources (pages, articles, etc.) that have been stored previously since they were heavily visited.
-On sites with a lot of content, total cache deletion could also cause a significant slowdown, due to the need to regenerate from scratch all WordPress pages or articles requested by users.
+== HOW TO CHECK IF CACHING IS WORKING ==
+The server-side cache system sets specific HTTP headers indicating whether the requested resource (link) is cached or not. To verify if your website is using the cache correctly, you must check for these HTTP headers.
+It's essential to ensure you are logged out of the WordPress site you're checking, as well as from any other WordPress site open in other browser tabs. The first step is therefore to log out from the WordPress admin area.
+Open the developer tools based on your browser:
 
-== WHAT WILL NOT BE CACHED ==
+For Firefox: Menu → Browser Tools → Browser Console
 
-To make Varnish caching system efficient, there are some specific resources and HTTP calls that will never be cached:
+For Chrome: View → Developer Options → Developer Tools
 
-* Any page, article / resource visited by a logged in user.
-* Any page, article / resource with no-cache header set.
-* All WordPress backend calls.
-* All calls made for data entry (registration form, contacts, comments and so on).
+Once the developer tools are open:
 
-== HOW TO CHECK THAT VARNISH CACHE IS WORKING ==
+Select the "Network" tab
+In Firefox, choose the “HTML” sub-tab, in Chrome, choose “Doc”
+Refresh the website page
+Click on the first row showing the domain name or visited link (with status 200)
 
-Varnish caching system sets specific headers if the called resource (link) is available or not in cache. To check if website is using Varnish cache, it is therefore necessary to check for the presence of specific Varnish headers.
+In the right-hand column, you'll see the response headers. The last header refers to the cache:
 
-Open your browser developer:
+== VARNISH CACHE HEADER ==
+X-VC-Cache: HIT = the resource (page) is present in cache and was served from the Varnish cache system. This means the caching system is working properly.
+X-VC-Cache: MISS = the resource (page) is NOT in cache and was generated by the WordPress application. This means the cache system was instructed by headers or custom rules not to serve the cached content to the visitor.
 
-Firefox: tools->web development->Activate tools.
-Chrome: View->development options->developer tools
+== NGINX CACHE HEADER ==
+x-cache-status: HIT or STALE = the resource (page) is present in cache and was served from the NGINX cache system. This means the caching system is working properly.
+x-cache-status: MISS = the resource (page) is NOT in cache and was generated by the WordPress application. This means the cache system was instructed by headers or custom rules not to serve the cached content to the visitor.
 
-Now, on developer tools:
-* select “Network” tab
-* select “HTML” sub tab in Firefox or “Doc” in Chrome
-* refresh your page
-* click on the domain name row identified by 200 status code
+== ENABLING THE CACHING SYSTEM FROM THE WEBPANEL ==
 
-The response headers will open in the right column, last header will be the one related to Varnish:
+The NGINX caching system is enabled by default and doesn’t require any specific settings.
+To enable the Varnish caching system, we recommend checking the dedicated guide: https://docs.ergonet.it/gestione-hosting/impostazioni-cache-server/cache-varnish
 
-X-VC-Cache: HIT = the resource, therefore the page called, is available in cache and has been returned by Varnish. It means that the cache system is working properly.
-
-X-VC-Cache: MISS = the resource, therefore the page called, is NOT available in cache and was generated by WordPress application. It means that the cache system has been instructed by the application headers or by custom rules, not to return the content from cache.
-
-== ACTIVATION OF VARNISH CACHE SYSTEM FROM WEBPANEL ==
-From Ergonets WebPanel additional Varnish configurations are available:
-
-Cache expire
-Recommended configuration: 1 week
-Time retention of a given resource in cache. After this time, the resources available in Varnish cache that have reached this retention period will be deleted.
-Remember that a resource (for example a page or an article), if modified or updated, will be deleted from the default cache, without considering its validity time and without the need to clear the entire cache. Whenever you update a page or article, homepage cache will also be invalidated.
-
-Force cache
-Recommended configuration: OFF
-Some plugins or themes forces Cache Control headers to not allow Varnish to cache a resource. It is always preferable not to force this directive, as the headers are expected to be correctly set by applications, themes and plugins developers.
-If activated, carefully check that there are no unexpected issues on website.
-
-Dedicated memory (option only available on dedicated Cloud Hosting)
-Recommended configuration: 128MB
-Amount of RAM memory assigned to Varnish cache; 128MB is enough for most websites. For portals or e-commerces with a lot of content or products, we suggest setting it to 256MB or 512MB.
-Keep in mind that the more RAM you will assign to Varnish, the less it will remain available for all other websites hosted on the same server and for the operating system. Increase the amount of Varnish RAM only if you have enough memory available.
-
-Terms to exclude
-Terms and words that if found on URLs should exclude content from being cached. There are already some default terms, but the list can be enriched if necessary by the user.
 == Installation ==
 
 1. Activate varnish cache support on ErgonetWebPanelcontrol panel.
@@ -103,6 +80,14 @@ Terms and words that if found on URLs should exclude content from being cached. 
 3. Activate the plugin through the 'Plugins' screen in WordPress.
 
 == Changelog ==
+
+= 1.0.11 =
+Release date: April 15th, 2025
+Welcome 1.0.11 release!
+New:
+– Add NGINX cache control
+Other:
+– Tested up with WordPress 6.7
 
 = 1.0.6 =
 Release date: August 11th, 2022

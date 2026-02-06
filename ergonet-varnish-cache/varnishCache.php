@@ -5,7 +5,7 @@
 /*
 Plugin Name: Ergonet Cache
 Description: Plugin per la gestione delle cache Nginx e Varnish su hosting Ergonet.
-Version: 1.0.11
+Version: 1.0.13
 Author: Ergonet srl
 Author URI: https://www.ergonet.it
 License: GPLv2+
@@ -61,11 +61,14 @@ class varnishCache
         echo "<h3>ERGONET CACHE</h3><p>Ergonet Cache for WordPress è il plugin gratuito sviluppato da Ergonet srl, azienda di  hosting italiana, per migliorare drasticamente le performance di un sito web sviluppato in WordPress, grazie all'ausilio di un sistema di cache di pagina lato server (Cache NGINX oppure Varnish cache).</p><h3>BENEFICI</h3><p>L’utilizzo di un sistema di cache lato server, aumenta le performance del tuo sito in WordPress da un minimo del 30% ad un massimo del 70%. Ricorda che la percentuale di miglioramento dipenderà  comunque anche dall’intera strategia di ottimizzazione del tuo sito web.</p><h3>COS’È LA CACHE DI PAGINA E COME FUNZIONA?</h3><p>La cache di pagina velocizza il tuo sito memorizzando l’intero HTML delle pagine web direttamente sul web server, restituendole istantaneamente ai visitatori senza necessità di interrogare nuovamente il server php o il database. In base al piano di hosting acquistato, potrai attivare la cache di pagina NGINX (piano Equilibrio) o la cache di pagina avanzata Varnish su memoria RAM (piani Progresso e Successo).</p><h3>COMPATIBILITÀ</h3><p>Il plugin Ergonet Cache è compatibile con tutti gli altri plugin di cache e ottimizzazione del sito web. Ad esempio WP Rocket, W3 Total cache, WO Optimize, ecc.</p><p>Il plugin Ergonet Cache funziona esclusivamente come layer di  comunicazione tra WordPress e il sistema di cache (Varnish oppure NGINX) installato sulla piattaforma server di <b>hosting per WordPress (qualsiasi piano) e cloud hosting dedicati (piani Solo e Multidominio)</b> di Ergonet disponibili per l’acquisto a questo link <a href=\"https://www.ergonet.it/hosting/hosting-wordpress-valore\" target=\"_blank\">https://www.ergonet.it/hosting/hosting-wordpress-valore</a></p><p>Un requisito fondamentale per il funzionamento del plugin è l’attivazione  del sistema di cache dal WebPanel (area clienti Ergonet  disponibile su <a href=\"https://webpanel.ergonet.it\" target=\"_blank\">https://webpanel.ergonet.it</a>) da parte dell’utente che ha acquistato il servizio di hosting condiviso o cloud dedicato.</p><h3>COME FUNZIONA IL PLUGIN</h3><p>Una volta attivato il sistema di cache dal WebPanel di Ergonet e installato e attivato il plugin Ergonet Cache, lo stesso funzionerà senza alcuna configurazione aggiuntiva.</p><b>Aggiornamento delle risorse in cache</b><p>Ogni volta che il webmaster aggiornerà un articolo o una pagina, il plugin  installato in WordPress si occuperà di eliminare la vecchia risorsa  presente in cache, per evitare che gli utenti visualizzino un contenuto  vecchio.</p><p>Contestualmente verrà anche eliminata la cache della homepage, per aggiornare gli eventuali ultimi articoli disponibili nella stessa.</p><b>Cancellazione delle risorse in cache</b><p>Considerata la funzionalità di aggiornamento e rimozione automatica delle risorse, non sarà necessario cancellare forzatamente la cache per alcun motivo.  Inoltre la cancellazione totale della cache è un’azione sconsigliata, in quanto eliminerebbe dalla stessa tutte le risorse (pagine, articoli,  ecc) che sono state immagazzinate in precedenza poiché molto visitate.</p><p>Su siti con moltissimi contenuti l’operazione di cancellazione totale  della cache potrebbe causare inoltre un rallentamento importante, causato della necessità da parte del sito in WordPress di rigenerare nuovamente da zero tutte le pagine o articoli richieste dagli utenti.</p><h3>COSA NON VIENE INSERITO IN CACHE</h3><p>Per rendere efficiente il funzionamento del plugin, ci sono alcune risorse e chiamate HTTP specifiche che non verranno mai inserite in cache, ecco  quali:</p><ul style=\"list-style: disc;padding-inline-start: 40px;\"><li>Qualsiasi pagina, articolo/risorsa visitato da un utente loggato.</li><li>Qualsiasi pagina, articolo/risorsa in cui viene settato un header no-cache e similari.</li><li>Tutte le chiamate dirette al backend di WordPress.</li><li>Tutte le chiamate eseguite per inserimento dati (form di registrazione, contatti, commenti e così via.)</li></ul><h3>COME VERIFICARE CHE LA CACHE VARNISH SIA FUNZIONANTE</h3><p>Il sistema di cache lato server setta degli header HTTP specifici nel caso la risorsa (link) richiamata sia presente o meno in cache. Per verificare se il sito web stia sfruttando la cache correttamente, è quindi necessario  verificare la presenza di questi header HTTP.</p><p>È essenziale assicurarsi di essere sloggati dal sito WordPress oggetto della verifica e da qualsiasi altro sito WordPress aperto in una scheda del browser utilizzato. Per prima cosa è quindi assolutamente necessario eseguire un logout dall'area di backend di WordPress.</p><p>Aprire gli strumenti per sviluppatori in base al browser utilizzato:</p><p>Firefox tramite il menù:</p><p>strumenti -> strumenti del browser -> Console del browser</p><p>Chrome tramite il menù: Vista -> opzioni per sviluppatori -> strumenti per sviluppatori</p><p>A questo punto si apriranno gli strumenti per sviluppatori:</p><ul style=\"list-style: disc;padding-inline-start: 40px;\"><li>selezionare la scheda “Rete” oppure “Network”</li><li>selezionare la sotto-scheda “HTML” in Firefox oppure “Doc” in Chrome</li><li>ricaricare il sito web eseguendo un refresh della pagina</li><li>cliccare sulla prima riga, relativa al nome dominio (oppure il link della pagina visitata) identificato con stato o status 200</li></ul><p>Nella colonna di destra si apriranno gli Header di risposta, l’ultimo header sarà quello relativo alla cache:</p><h3>HEADER VARNISH CACHE</h3><p><b>X-VC-Cache: HIT</b>= la risorsa, quindi la pagina richiamata, è presente in cache ed è stata restituita dal sistema di cache Varnish. Significa che il sistema di cache sta funzionando correttamente.</p><p><b>X-VC-Cache: MISS</b>= la risorsa, quindi la pagina richiamata, NON è presente in cache ed è stata generata dall’applicazione WordPress. Significa che il sistema di cache è stato  istruito dagli header dell’applicazione oppure da regole personalizzate, a non restituire il contenuto presente in cache al visitatore.</p><h3>HEADER CACHE NGINX</h3><p><b>x-cache-status: HIT oppure STALE</b>= la risorsa, quindi la pagina richiamata, è presente in cache ed è stata restituita dal sistema di cache NGINX. Significa che il sistema di cache sta funzionando correttamente.</p><p><b>x-cache-status: MISS</b>= la risorsa,  quindi la pagina richiamata, NON è presente in cache ed è stata generata dall’applicazione WordPress. Significa che il sistema di cache è stato  istruito dagli header dell’applicazione oppure da regole personalizzate, a non restituire il contenuto presente in cache al visitatore.</p><h3>ATTIVAZIONE DEL SISTEMA DI CACHE DAL WEBPANEL</h3><p>Il sistema di cache NGINX è attivo di default e non presenta configurazioni particolari da settare.</p><p>Per l'attivazione del sistema di cache Varnish, consigliamo di visionare la guida dedicata <a href=\"https://docs.ergonet.it/gestione-hosting/impostazioni-cache-server/cache-varnish\" target=\"_blank\">https://docs.ergonet.it/gestione-hosting/impostazioni-cache-server/cache-varnish</a></p>";
     }
 
-    function cache_purge_action_js() { ?>
+    function cache_purge_action_js() {
+        $nonce = wp_create_nonce( 'ergonet_cache_nonce' );
+        ?>
         <script type="text/javascript" >
             jQuery("li#wp-admin-bar-cache-purge-homepage .ab-item").on( "click", function() {
                 var data = {
                     'action': 'varnish_cache_purge_homepage',
+                    _ajax_nonce: '<?php echo $nonce; ?>'
                 };
 
                 jQuery.post(ajaxurl, data, function(response) {
@@ -75,7 +78,8 @@ class varnishCache
 
             jQuery("li#wp-admin-bar-cache-purge-all .ab-item").on( "click", function() {
                 var data = {
-                    'action': 'varnish_cache_purge_all',
+                    action: 'varnish_cache_purge_all',
+                    _ajax_nonce: '<?php echo $nonce; ?>'
                 };
 
                 jQuery.post(ajaxurl, data, function(response) {
@@ -96,6 +100,9 @@ class varnishCache
     }
 
     function adminBarMenu($wp_admin_bar) {
+        if ( ! current_user_can('manage_options') ) {
+            return;
+        }
         global $pagenow;
         $wp_admin_bar->add_node(array("id"=>"parent_node_1", "title"=>"<span class=\"ab-icon dashicons dashicons-performance\"></span>Ergonet Cache", "href"=>false));
         $wp_admin_bar->add_group(array("id"=>"group_1", "parent"=>"parent_node_1"));
@@ -108,6 +115,14 @@ class varnishCache
 
     function purgeCache($post_id)
     {
+        if ( ! current_user_can('edit_post', $post_id) ) {
+            return;
+        }
+
+        if ( wp_is_post_revision( $post_id ) ) {
+            return;
+        }
+
         if(!$this->notToDo) {
             $this->purgePost($post_id);
             $this->purgeFrontPage();

@@ -5,7 +5,7 @@
 /*
 Plugin Name: Ergonet Cache
 Description: Plugin per la gestione delle cache Nginx e Varnish su hosting Ergonet.
-Version: 1.0.13
+Version: 1.0.14
 Author: Ergonet srl
 Author URI: https://www.ergonet.it
 License: GPLv2+
@@ -90,11 +90,19 @@ class varnishCache
     }
 
     function cachePurgeHomepageCallback() {
+        check_ajax_referer('ergonet_cache_nonce');
+        if (!current_user_can('manage_options')) {
+            wp_die(-1);
+        }
         $this->purgeFrontPage();
         wp_die();
     }
 
     function cachePurgeAllCallback() {
+        check_ajax_referer('ergonet_cache_nonce');
+        if (!current_user_can('manage_options')) {
+            wp_die(-1);
+        }
         $this->purgeAll();
         wp_die();
     }

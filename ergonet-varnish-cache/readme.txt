@@ -2,8 +2,8 @@
 Contributors: ergonet
 Tags: cache
 Requires at least: 4.9
-Tested up to: 7.0
-Stable tag: 1.0.14
+Tested up to: 7.1
+Stable tag: 1.0.15
 Requires PHP: 7.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -80,6 +80,12 @@ To enable the Varnish caching system, we recommend checking the dedicated guide:
 3. Activate the plugin through the 'Plugins' screen in WordPress.
 
 == Changelog ==
+
+= 1.0.15 =
+Release date: October 20th, 2026
+Welcome 1.0.15 release!
+Other:
+– Tested up with WordPress 7.1
 
 = 1.0.11 =
 Release date: April 15th, 2025

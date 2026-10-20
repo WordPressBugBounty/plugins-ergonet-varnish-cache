@@ -5,7 +5,7 @@
 /*
 Plugin Name: Ergonet Cache
 Description: Plugin per la gestione delle cache Nginx e Varnish su hosting Ergonet.
-Version: 1.0.14
+Version: 1.0.15
 Author: Ergonet srl
 Author URI: https://www.ergonet.it
 License: GPLv2+
@@ -27,7 +27,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-Copyright 2019-2022 Ergonet srl
+Copyright 2019-2026 Ergonet srl
  */
 
 defined( 'ABSPATH' ) or die( 'Non puoi accedere a questa risorsa');
